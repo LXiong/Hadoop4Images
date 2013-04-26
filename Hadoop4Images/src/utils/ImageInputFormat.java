@@ -11,13 +11,13 @@ import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 
 
-public class InputFormatImg extends FileInputFormat<LongWritable, BufferedImage> {
+public class ImageInputFormat extends FileInputFormat<LongWritable, BufferedImage> {
 
 	@Override
 	public RecordReader<LongWritable, BufferedImage> createRecordReader(InputSplit split,
 		TaskAttemptContext context) throws IOException,
 		InterruptedException {
-			return new ImgRecordReader();
+			return new ImageRecordReader();
 		}
 
 	@Override

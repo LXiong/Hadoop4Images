@@ -18,7 +18,7 @@ import org.apache.hadoop.mapreduce.RecordReader;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 
-public class ImgRecordReader extends RecordReader<LongWritable, BufferedImage> {
+public class ImageRecordReader extends RecordReader<LongWritable, BufferedImage> {
 	// Image information
 	
 	private String fileName = null;
