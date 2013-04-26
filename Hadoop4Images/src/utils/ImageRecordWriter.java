@@ -10,12 +10,12 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.RecordWriter;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 
-import utils.Image;
+import utils.ImageObject;
 
 import static com.googlecode.javacv.cpp.opencv_core.*;
 import static com.googlecode.javacv.cpp.opencv_highgui.*;
 
-public class ImageRecordWriter extends RecordWriter<Text, Image> {
+public class ImageRecordWriter extends RecordWriter<Text, ImageObject> {
 
 	private Path outputPath = null;
 	private FileSystem fs = null;
@@ -32,7 +32,7 @@ public class ImageRecordWriter extends RecordWriter<Text, Image> {
 	}
 
 	@Override
-	public void write(Text key, Image value) throws IOException,
+	public void write(Text key, ImageObject value) throws IOException,
 			InterruptedException {
 		
 		// An optional 0-terminated list of JPG parameter pairs <param id, value>

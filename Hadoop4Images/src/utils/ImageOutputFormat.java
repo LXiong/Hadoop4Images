@@ -10,12 +10,12 @@ import org.apache.hadoop.mapreduce.RecordWriter;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-import utils.Image;
+import utils.ImageObject;
 
-public class ImageOutputFormat extends FileOutputFormat<Text, Image> {
+public class ImageOutputFormat extends FileOutputFormat<Text, ImageObject> {
 
 	@Override
-	public RecordWriter<Text, Image> getRecordWriter(TaskAttemptContext job)
+	public RecordWriter<Text, ImageObject> getRecordWriter(TaskAttemptContext job)
 			throws IOException, InterruptedException {
 
 		Configuration conf = job.getConfiguration();

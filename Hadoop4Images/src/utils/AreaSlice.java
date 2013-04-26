@@ -1,21 +1,10 @@
 package utils;
-
+import com.googlecode.javacv.cpp.opencv_core.CvRect;
 import static com.googlecode.javacv.cpp.opencv_core.cvRect;
 
-import com.googlecode.javacv.cpp.opencv_core.CvRect;
 
-public class WindowInfo {
-	
-	// Size of parent image
-	private int parentWidth = -1;
-	private int parentHeight = -1;
-	
-	// Location of window in parent image
-	private int parentXOffset = -1;
-	private int parentYOffset = -1;
-	
-	private int width = -1;
-	private int height = -1;
+
+public class AreaSlice {
 	
 	// Amount of border
 	private int borderTop = -1;
@@ -23,17 +12,22 @@ public class WindowInfo {
 	private int borderLeft = -1;
 	private int borderRight = -1;
 	
-	public WindowInfo(){}
+	// Size of parent image
+	private int sourceWidth = -1;
+	private int sourceHeight = -1;
 	
-	public void setParentInfo(int parentXOffset, int parentYOffset, int parentHeight, int parentWidth){
-		this.parentWidth = parentWidth;
-		this.parentHeight = parentHeight;
-		this.parentXOffset = parentXOffset;
-		this.parentYOffset = parentYOffset;
-	}
+	// Location of window in source image
+	private int sourceXOffset = -1;
+	private int sourceYOffset = -1;
 	
+	private int width = -1;
+	private int height = -1;
+	
+	public AreaSlice(){}
+	
+		
 	public boolean isParentInfoValid(){
-		if (parentWidth < 0 || parentHeight < 0 || parentXOffset < 0 || parentYOffset < 0){
+		if (sourceWidth < 0 || sourceHeight < 0 || sourceXOffset < 0 || sourceYOffset < 0){
 			return false;
 		}
 		
@@ -55,6 +49,12 @@ public class WindowInfo {
 		return true;
 	}
 	
+	public void setParentInfo(int parentXOffset, int parentYOffset, int parentHeight, int parentWidth){
+		this.sourceWidth = parentWidth;
+		this.sourceHeight = parentHeight;
+		this.sourceXOffset = parentXOffset;
+		this.sourceYOffset = parentYOffset;
+	}
 	public void setWindowSize(int height, int width){
 		this.height = height;
 		this.width = width;
@@ -69,8 +69,8 @@ public class WindowInfo {
 	}
 	
 	public CvRect computeROI(){
-		int newX = parentXOffset - borderLeft;
-		int newY = parentYOffset - borderTop;
+		int newX = sourceXOffset - borderLeft;
+		int newY = sourceYOffset - borderTop;
 		int newWidth = width + borderLeft + borderRight;
 		int newHeight = height + borderTop + borderBottom;
 		return cvRect(newX, newY, newWidth, newHeight);
@@ -85,19 +85,19 @@ public class WindowInfo {
 	}
 	
 	public int getParentWidth() {
-		return parentWidth;
+		return sourceWidth;
 	}
 	
 	public int getParentHeight() {
-		return parentHeight;
+		return sourceHeight;
 	}
 	
 	public int getParentXOffset() {
-		return parentXOffset;
+		return sourceXOffset;
 	}
 	
 	public int getParentYOffset() {
-		return parentYOffset;
+		return sourceYOffset;
 	}
 	public int getBorderTop() {
 		return borderTop;

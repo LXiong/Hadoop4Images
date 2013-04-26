@@ -6,7 +6,8 @@ import java.util.Iterator;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.LongWritable;
+
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -19,20 +20,21 @@ import org.apache.hadoop.util.ToolRunner;
 import static com.googlecode.javacv.cpp.opencv_core.*;
 import static com.googlecode.javacv.cpp.opencv_imgproc.*;
 
-import utils.Image;
+import utils.ImageObject;
 import utils.ImageInputFormat;
 import utils.ImageOutputFormat;
 
 public class Sobel2 extends Configured implements Tool {
 	public static class Map extends
-			Mapper<Text, Image, Text, Image> {
+			Mapper<LongWritable, ImageObject, LongWritable, ImageObject> {
 
 		@Override
-		public void map(Text key, Image value, Context context)
+		public void map(LongWritable key, ImageObject value, Context context)
 				throws IOException, InterruptedException {
 
 			IplImage src = value.getImage();
-			IplImage dest = cvCreateImage(cvSize(src.width(), src.height()), IPL_DEPTH_16S, src.nChannels());
+			IplImage dest = cvCreateImage(cvSize(src.width(), src.height()), 
+					IPL_DEPTH_16S, src.nChannels());
 			
 			cvSobel( src, dest, 1, 0, 3);
 			
@@ -43,30 +45,30 @@ public class Sobel2 extends Configured implements Tool {
 	}
 
 	public static class Reduce extends
-			Reducer<Text, Image, Text, Image> {
+			Reducer<LongWritable, ImageObject, LongWritable, ImageObject> {
 
 		@Override
-		public void reduce(Text key, Iterable<Image> values,
+		public void reduce(LongWritable key, Iterable<ImageObject> values,
 				Context context) throws IOException, InterruptedException {
 
 			// Sum the parts
-			Iterator<Image> it = values.iterator();
-			Image img = null;
-			Image part = null;
+			Iterator<ImageObject> it = values.iterator();
+			ImageObject img = null;
+			ImageObject part = null;
 			while (it.hasNext()) {
-				part = (Image) it.next();
+				part = (ImageObject) it.next();
 				if(img == null){
 					int height = part.getHeight();
 					int width = part.getWidth();
-					if(part.getWindow().isParentInfoValid()){
-						height = part.getWindow().getParentHeight();
-						width = part.getWindow().getParentWidth();
+					if(part.getRegion().isParentInfoValid()){
+						height = part.getRegion().getParentHeight();
+						width = part.getRegion().getParentWidth();
 					}
 					int depth = part.getDepth();
 					int nChannel = part.getNumChannel();
-					img = new Image(height, width, depth, nChannel);
+					img = new ImageObject(height, width, depth, nChannel);
 				}
-				img.insertImage(part);
+				img.insertRegion(part);
 			}
 
 			context.write(key, img);
@@ -87,8 +89,8 @@ public class Sobel2 extends Configured implements Tool {
 		job.setJarByClass(Sobel2.class);
 		job.setJobName("Sobel2");
 
-		job.setOutputKeyClass(Text.class);
-		job.setOutputValueClass(Image.class);
+		job.setOutputKeyClass(LongWritable.class);
+		job.setOutputValueClass(ImageObject.class);
 
 		job.setMapperClass(Map.class);
 		job.setReducerClass(Reduce.class);

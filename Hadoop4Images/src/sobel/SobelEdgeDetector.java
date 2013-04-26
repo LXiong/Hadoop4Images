@@ -46,7 +46,7 @@ public class SobelEdgeDetector {
     for (i=0; i<imgWidth; i++) { 
       for (j=0; j<imgHeight; j++) { 
         if (i==0 || i==imgWidth-1 || j==0 || j==imgHeight-1) 
-          Gx[i][j] = Gy[i][j] = G[i][j] = 0; // Image boundary cleared 
+          Gx[i][j] = Gy[i][j] = G[i][j] = 0; // ImageObject boundary cleared 
         else{ 
           Gx[i][j] = outArr[i+1][j-1] + 2*outArr[i+1][j] + outArr[i+1][j+1] - 
           outArr[i-1][j-1] - 2*outArr[i-1][j] - outArr[i-1][j+1]; 

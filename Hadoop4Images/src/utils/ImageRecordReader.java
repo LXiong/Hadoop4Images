@@ -18,22 +18,15 @@ import org.apache.hadoop.mapreduce.RecordReader;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 
-public class ImageRecordReader extends RecordReader<LongWritable, BufferedImage> {
-	// Image information
+public class ImageRecordReader extends 
+    RecordReader<LongWritable, BufferedImage> {
 	
+	// ImageObject information
 	private String fileName = null;
 	private ImageReader reader = null;
-	
 	private MemoryCacheImageInputStream  image = null;
-	// Key/Value pair
 	private LongWritable key = null;
 	private BufferedImage value = null;
-
-	// Configuration parameters
-	// By default use percentage for splitting
-	boolean splittusingPixel = false;
-	
-	// splits
 	int totalXSplits = 0;
 	int totalYSplits = 0;
 	int loctX = 0;
@@ -41,8 +34,8 @@ public class ImageRecordReader extends RecordReader<LongWritable, BufferedImage>
 	int currentSplit = 0;
 	int imgwidth = 0;
 	int imgheight = 0;
-	
-	
+	boolean splittusingPixel = false;
+
 	public int getImgheight() {
 		return imgheight;
 	}
@@ -50,11 +43,9 @@ public class ImageRecordReader extends RecordReader<LongWritable, BufferedImage>
 	static int overlapPercent = 0;
 	static int sizePercent = 0;
 	
-	
-	
 	@Override
 	public void close() throws IOException {
-		//nothing here
+		//Blank Override Default behaviour
 	}
 
 	public int getImgwidth() {
