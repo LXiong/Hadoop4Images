@@ -46,7 +46,7 @@ public class Canny {
 		
 		config.setInt("overlapPixel", 64);
 		
-		int overlapPixel = ImgRecordReader.overlapPixel;
+		int overlapPixel = ImageRecordReader.overlapPixel;
 		System.out.println(overlapPixel);
 		
 		Path filepath = null;
@@ -67,7 +67,7 @@ public class Canny {
 	
 		job.setReducerClass(CannyReducer.class);
 
-		job.setInputFormatClass(InputFormatImg.class);
+		job.setInputFormatClass(ImageInputFormat.class);
 				
 		job.setOutputKeyClass(LongWritable.class);
 		job.setOutputValueClass(LongWritable.class);
@@ -83,7 +83,7 @@ public class Canny {
 		int i = 0;
 		Path iPath = new Path(tmpdir,""+i);
 		int currX =0, currY = 0;
-		int sizePixel = ImgRecordReader.sizePixel;
+		int sizePixel = ImageRecordReader.sizePixel;
 		int border = 16;
 		
 		FSDataInputStream filesys = null;

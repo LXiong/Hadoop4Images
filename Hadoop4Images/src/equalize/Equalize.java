@@ -21,7 +21,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 
-import utils.InputFormatImg;
+import utils.ImageInputFormat;
 import utils.ArrayWritableLong;
 
 public class Equalize {
@@ -63,7 +63,7 @@ public class Equalize {
 		job.setCombinerClass(HistoReducer.class);
 		job.setReducerClass(HistoReducer.class);
 
-		job.setInputFormatClass(InputFormatImg.class);
+		job.setInputFormatClass(ImageInputFormat.class);
 		job.setOutputKeyClass(LongWritable.class);
 		job.setOutputValueClass(ArrayWritableLong.class);
 

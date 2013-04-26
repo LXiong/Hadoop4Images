@@ -42,7 +42,7 @@ public class SobelFilter {
 		//String fname = null;
 		
 		conf.setInt("overlapPixel", 64);
-		int overlapPixel = ImgRecordReader.overlapPixel;
+		int overlapPixel = ImageRecordReader.overlapPixel;
 		System.out.println(overlapPixel);
 		Path fpath = null;
 		for (FileStatus file: files) {
@@ -62,7 +62,7 @@ public class SobelFilter {
 	
 		job.setReducerClass(SobelReducer.class);
 
-		job.setInputFormatClass(InputFormatImg.class);
+		job.setInputFormatClass(ImageInputFormat.class);
 		
 		
 		job.setOutputKeyClass(LongWritable.class);
@@ -79,7 +79,7 @@ public class SobelFilter {
 		int i = 0;
 		Path iPath = new Path(tmpdir,""+i);
 		int currX =0, currY = 0;
-		int sizePixel = ImgRecordReader.sizePixel;
+		int sizePixel = ImageRecordReader.sizePixel;
 		int border = 16;
 		
 		FSDataInputStream fs = null;
